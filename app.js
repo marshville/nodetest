@@ -26,6 +26,28 @@ var getAllPersons = function(req,res) {
 }
 app.get('/persons', getAllPersons);
 
+
+app.param('personId', function (req, res, next, personId) {
+  debug("personId found:",personId);
+  var person = _.find(personData, function(it) {
+    return personId == it.id;
+  });
+  debug("person:", person);
+  req.person = person;
+  next();
+});
+
+var getPerson = function(req, res) {
+  if (req.person) {
+    res.send(200, JSON.stringify(req.person));
+  }
+  else {
+    res.send(400, { message: "Unrecognized identifier: " + identifier });
+  }
+};
+
+app.get('/persons/:personId', getPerson);
+
 // Set up a simple route
 app.get('/', function (req, res) {
   debug("/ requested");
