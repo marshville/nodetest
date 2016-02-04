@@ -1,6 +1,7 @@
 // Load modules
 var express = require('express');
 var debug = require('debug')('app');
+var _ = require('lodash');
 // Create express instance
 var app = express();
 
@@ -39,10 +40,10 @@ app.param('personId', function (req, res, next, personId) {
 
 var getPerson = function(req, res) {
   if (req.person) {
-    res.send(200, JSON.stringify(req.person));
+	res.status(200).send(JSON.stringify(req.person));
   }
   else {
-    res.send(400, { message: "Unrecognized identifier: " + identifier });
+    res.status(400).send({ message: "Unrecognized identifier: " + identifier });
   }
 };
 
