@@ -1,0 +1,16 @@
+{
+  "name": "MSDN-MEAN",
+  "version": "0.0.1",
+  "description": "Testing out building a MEAN app from scratch",
+  "main": "app.js",
+  "scripts": {},
+  "author": "Marshville",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^2.2.0",
+    "express": "^4.13.4",
+    "lodash": "^2.4.1",
+    "serve-static": "^1.7.0"
+  },
+  "devDependencies": {}
+}
