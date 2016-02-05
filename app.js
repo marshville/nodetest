@@ -21,13 +21,6 @@ var personData = [
   }
 ];
 
-var getAllPersons = function(req,res) {
-	var response = personData;
-	res.send(JSON.stringify(response))
-}
-app.get('/persons', getAllPersons);
-
-
 app.param('personId', function (req, res, next, personId) {
   debug("personId found:",personId);
   var person = _.find(personData, function(it) {
@@ -37,6 +30,12 @@ app.param('personId', function (req, res, next, personId) {
   req.person = person;
   next();
 });
+
+var getAllPersons = function(req,res) {
+	var response = personData;
+	res.send(JSON.stringify(response))
+}
+app.get('/persons', getAllPersons);
 
 var getPerson = function(req, res) {
   if (req.person) {
@@ -48,6 +47,24 @@ var getPerson = function(req, res) {
 };
 
 app.get('/persons/:personId', getPerson);
+
+var deletePerson = function(req, res) {
+  if (req.person) {
+    debug("Removing", req.person.firstName, req.person.lastName);
+    _.remove(personData, function(it) {
+      it.id === req.person.id;
+    });
+    debug("personData=", personData);
+    var response = { message: "Deleted successfully" };
+    res.status(200).jsonp(response);
+  }
+  else {
+    var response = { message: "Unrecognized person identifier"};
+    res.status(404).jsonp(response);
+  }
+};
+
+app.delete('/persons/:personId', deletePerson);
 
 // Set up a simple route
 app.get('/', function (req, res) {
